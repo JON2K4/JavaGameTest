@@ -1,7 +1,10 @@
 package game;
 
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -15,18 +18,18 @@ public class Window extends JFrame implements KeyListener{
 		
 		setTitle("Game");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLayout(null);
 		setLocation((1920/2)-250, (1080/2)-250);
 		
 		Stage mainStage = new Stage();
 		add(mainStage);
-		
 		
 		addKeyListener(this);
 		pack();
 		
 		setSize(500, 500);
 		
-		console = new ConsoleWindow();
+		console = new ConsoleWindow(this);
 		console.setVisible(CONSOLE_ENABLED);
 		
 	}

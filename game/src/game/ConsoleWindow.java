@@ -15,17 +15,20 @@ public class ConsoleWindow extends JFrame
 
 	implements KeyListener, ActionListener{
 	
-	public ConsoleWindow() {
+	Window mainWin;
+	
+	public ConsoleWindow(Window mainWin) {
 		super();
+		this.mainWin = mainWin;
 		
 		setTitle("Console");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocation((1920/2)+250, (1080/2)-250);
-		//setUndecorated(true);
+		setUndecorated(true);
 		
 		addKeyListener(this);
 
-		ConsolePanel panel = new ConsolePanel();
+		ConsolePanel panel = new ConsolePanel(this);
 		add(panel);
 		
 		pack();
