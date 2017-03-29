@@ -25,6 +25,7 @@ public class Window extends JFrame implements KeyListener{
 		add(mainStage);
 		
 		addKeyListener(this);
+		addKeyListener(mainStage);
 		pack();
 		
 		setSize(500, 500);
@@ -36,8 +37,8 @@ public class Window extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
 		if (e.getKeyCode() == KeyEvent.VK_BACK_QUOTE){
-			System.out.println("Tilde pressed");
 			
 			CONSOLE_ENABLED = !CONSOLE_ENABLED;
 			console.toggleVis(CONSOLE_ENABLED);

@@ -9,8 +9,9 @@ public class ScrnObj {
 
 	private Font font;
 	private Color col;
-	private float posX;
-	private float posY;
+	
+	protected int posX;
+	protected int posY;
 	protected int CURRENT_TEX;
 	
 	protected String[] tex = new String[3];
@@ -35,13 +36,16 @@ public class ScrnObj {
 	}
 	
 	public void move(int incX, int incY){
+		System.out.println("Object: " + this + " moved " + incX + "; "+ incY);
 		posX += incX;
 		posY += incY;
 	}
 	
 	private void drawString(Graphics2D g, String tex, float posX, float posY){
+		int pad = -4;
+		
 		for (String line: tex.split("\n")){
-			g.drawString(line, posX, posY += g.getFontMetrics().getHeight());
+			g.drawString(line, posX, posY += (g.getFontMetrics().getHeight() + pad));
 		}
 	}
 }
