@@ -1,0 +1,3 @@
+idleTex: @newLine #newLine M
+jumpTex:*@*newLine UnewLine M
+deadTex:(X.X)newLineRIP...

@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 public class ScrnObj {
 
@@ -12,27 +16,25 @@ public class ScrnObj {
 	
 	protected int posX;
 	protected int posY;
-	protected int CURRENT_TEX;
+	protected String CURRENT_TEX;
 	
-	protected String[] tex = new String[3];
+	protected TreeMap<String, String> textureList;
 	
-	public ScrnObj(Color colour, int size, String tex1, String tex2, String tex3) {
+	public ScrnObj(Color colour, int size, String textureFile){
 		col = colour;
-		tex[0] = tex1;
-		tex[1] = tex2;
-		tex[2] = tex3;
+		
+		textureList = createTextureList(textureFile);
 		
 		posX = 250;
 		posY = 250;
 		
 		font = new Font("courier", Font.PLAIN, size);
-		CURRENT_TEX = 0;
 	}
 	
 	public void draw(Graphics2D g){
 		g.setFont(font);
 		g.setColor(col);
-		drawString(g, tex[CURRENT_TEX], posX, posY);
+		drawString(g, CURRENT_TEX, posX, posY);
 	}
 	
 	public void move(int incX, int incY){
@@ -42,10 +44,43 @@ public class ScrnObj {
 	}
 	
 	private void drawString(Graphics2D g, String tex, float posX, float posY){
-		int pad = -4;
+		int pad = -8;
 		
-		for (String line: tex.split("\n")){
+		for (String line: textureList.get(tex).split("newLine")){
 			g.drawString(line, posX, posY += (g.getFontMetrics().getHeight() + pad));
 		}
+	}
+	
+	public void setTex(String tex) throws TextureException{
+		if (textureList.containsKey(tex)){
+			CURRENT_TEX = tex;
+		}else{
+			CURRENT_TEX = "TEX\nERROR";
+			throw new TextureException("Texture: " + tex +" not found");
+		}
+	}
+	
+	private static TreeMap<String, String> createTextureList(String filePath){
+		Scanner texFile;
+		try {
+			texFile = new Scanner(new File(filePath));
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+			return new TreeMap<String, String>();
+		}
+		TreeMap<String, String> texMap = new TreeMap<String, String>();
+		while (texFile.hasNextLine()){
+			String[] line = texFile.nextLine().split(":");
+			texMap.put(line[0], line[1]);
+		}
+		texFile.close();
+		
+		System.out.printf(filePath + "\n" + "########################################\n");
+		for (String key: texMap.keySet()){
+			System.out.println(key + " : " + texMap.get(key));
+		}
+		System.out.printf("########################################\n");
+		
+		return texMap;
 	}
 }

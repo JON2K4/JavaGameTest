@@ -25,7 +25,7 @@ public class Stage extends JPanel
 	int GROUND_LEVEL;
 	
 
-	public Stage(){
+	public Stage() throws TextureException{
 		super();
 		
 		objectsList = new ArrayList<ScrnObj>();
@@ -54,26 +54,34 @@ public class Stage extends JPanel
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent event) {
 		
-		if (e.getKeyCode() == KeyEvent.VK_LEFT){
+		if (event.getKeyCode() == KeyEvent.VK_LEFT){
 			player.move(-15, 0);
 			
-		}else if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+		}else if (event.getKeyCode() == KeyEvent.VK_RIGHT){
 			player.move(15, 0);
 		}
 		
-		if (e.getKeyCode() == KeyEvent.VK_UP){
+		if (event.getKeyCode() == KeyEvent.VK_UP){
 			if (player.getStatus() != player.STATUS_FALLING){
-				player.jump();
+				try {
+					player.jump();
+				} catch (TextureException e) {
+					// TODO Auto-generated catch block
+					System.out.println(e.getMessage());
+				}
 			}
 		}
 		
-		if (e.getKeyCode() == KeyEvent.VK_D) {
-			player.killSelf();
+		if (event.getKeyCode() == KeyEvent.VK_D) {
+			try {
+				player.killSelf();
+			} catch (TextureException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
 		}
-		
-		
 	}
 
 	@Override
@@ -89,12 +97,14 @@ public class Stage extends JPanel
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent event) {
 		if (player.getPosition()[1] < GROUND_LEVEL){
 			player.move(0, 5);
 		}
 		if (player.getPosition()[1] == GROUND_LEVEL){
-			player.resetPlayer();
+			try {
+				player.resetPlayer();
+			} catch (TextureException e) {	}
 		}
 		
 		repaint();

@@ -13,7 +13,7 @@ public class Window extends JFrame implements KeyListener{
 	boolean CONSOLE_ENABLED = false;
 	ConsoleWindow console;
 	
-	public Window(){
+	public Window() throws TextureException{
 		super();
 		
 		setTitle("Game");
